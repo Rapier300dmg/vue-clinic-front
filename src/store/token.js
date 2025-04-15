@@ -24,7 +24,6 @@ export default new Vuex.Store({
   },
   actions: {
     login({ commit }, authData) {
-      // authData — объект с { token, role }
       commit('SET_AUTH', authData)
     },
     logout({ commit }) {

@@ -1,4 +1,3 @@
-<!-- src/views/Home.vue -->
 <template>
   <div class="home">
     <h1 v-if="!isDoctor">Наши врачи</h1>
@@ -7,7 +6,6 @@
     <div v-if="error" class="error">{{ error }}</div>
 
     <div v-else>
-      <!-- Для врачей: список пациентов из записей -->
       <div v-if="isDoctor" class="patients-list">
         <div v-if="patients.length">
           <div
@@ -25,7 +23,6 @@
         <p v-else>У вас пока нет записей.</p>
       </div>
 
-      <!-- Для обычных пользователей: список врачей -->
       <div v-else class="doctors-list">
         <DoctorCard
           v-for="doctor in doctors"
@@ -75,7 +72,6 @@ export default {
     }
   },
   methods: {
-    // Для пользователей: список врачей
     async fetchDoctors() {
       this.error = ''
       if (!this.token) {
@@ -94,7 +90,6 @@ export default {
       }
     },
 
-    // Для врачей: получаем записи, затем профили пациентов
     async fetchPatients() {
       this.error = ''
       if (!this.token || !this.doctorId) {
@@ -109,7 +104,6 @@ export default {
         appointments = Array.isArray(res.data) ? res.data : [res.data]
       } catch (err) {
         if (err.response?.status === 404) {
-          // просто нет записей
           appointments = []
         } else {
           console.error('Ошибка загрузки записей:', err)
@@ -120,18 +114,15 @@ export default {
         }
       }
 
-      // Если записей нет — всё
       if (!appointments.length) {
         this.patients = []
         return
       }
 
-      // Собираем уникальные patientId
       const uniqueIds = [
         ...new Set(appointments.map(a => a.patientId).filter(Boolean))
       ]
 
-      // Для каждого patientId запрашиваем профиль
       const patients = []
       for (const pid of uniqueIds) {
         try {
@@ -139,7 +130,6 @@ export default {
           patients.push(r.data)
         } catch (err) {
           console.warn(`Не удалось загрузить профиль пациента ${pid}`, err)
-          // пропускаем
         }
       }
       this.patients = patients

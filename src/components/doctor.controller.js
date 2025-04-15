@@ -1,4 +1,3 @@
-// src/controllers/doctor.controller.js
 const Doctor = require('../models/doctor.model')
 
 exports.createDoctor = async (req, res) => {

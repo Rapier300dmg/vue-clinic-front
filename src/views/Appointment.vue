@@ -1,4 +1,3 @@
-<!-- src/views/Appointment.vue -->
 <template>
   <div class="appointment-page">
     <h1>Запись к врачу</h1>
@@ -63,14 +62,12 @@ export default {
     }
   },
   computed: {
-    // Собираем уникальные специализации из doctor.speciality.speciality
     specializations() {
       const specs = this.doctors
         .map(d => d.speciality?.speciality)
         .filter(Boolean)
       return Array.from(new Set(specs)).sort()
     },
-    // Фильтрация по выбранной специализации
     filteredDoctors() {
       if (!this.selectedSpec) {
         return this.doctors

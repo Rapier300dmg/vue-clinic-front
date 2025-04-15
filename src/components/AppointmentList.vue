@@ -1,4 +1,3 @@
-<!-- src/components/AppointmentList.vue -->
 <template>
   <div class="appointments-list">
     <h1 v-if="!appointmentId">Ваши записи</h1>
@@ -58,31 +57,26 @@ export default {
     }
 
     try {
-      // 1) Если есть appointmentId — детали одной записи
       if (this.appointmentId) {
         const res = await api.get(`/appointment/${this.appointmentId}`)
         this.appointments = [res.data]
         return
       }
 
-      // 2) Если доктор — список его записей
       if (role === 'doctor') {
         try {
           const res = await api.get(`/appointment/doctor/${id}`)
           this.appointments = Array.isArray(res.data) ? res.data : [res.data]
         } catch (err) {
-          // 404/403 — пустой список
           this.appointments = []
         }
         return
       }
 
-      // 3) Пациент — список его записей через /appointment/patient/:id
       try {
         const res = await api.get(`/appointment/patient/${id}`)
         this.appointments = Array.isArray(res.data) ? res.data : [res.data]
       } catch (err) {
-        // 404 или 403 — просто пустой список
         if (err.response?.status === 404 || err.response?.status === 403) {
           this.appointments = []
         } else {

@@ -1,4 +1,3 @@
-<!-- src/views/DoctorProfile.vue -->
 <template>
   <div class="doctor-profile">
     <h1>Профиль врача</h1>
@@ -63,7 +62,6 @@ export default {
     }
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-    // 1) Получаем всех врачей и ищем нужного
     try {
       const { data: allDoctors } = await api.get('/doctor')
       this.doctor = allDoctors.find(
@@ -81,7 +79,6 @@ export default {
       return
     }
 
-    // 2) Получаем все записи и фильтруем по doctorId
     try {
       const { data: all } = await api.get('/appointment')
       this.appointments = Array.isArray(all)
@@ -89,7 +86,6 @@ export default {
         : []
     } catch (err) {
       console.error('Ошибка загрузки записей:', err)
-      // При ошибке просто показываем пустой список
       this.appointments = []
     } finally {
       this.loading = false

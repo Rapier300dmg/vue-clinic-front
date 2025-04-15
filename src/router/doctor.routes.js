@@ -1,8 +1,7 @@
-// routes/doctor.routes.js
 const express = require('express')
 const router = express.Router()
-const authUser = require('../middleware/authUser')      // ваш middleware
-const authManager = require('../middleware/authManager')// если нужно
+const authUser = require('../middleware/authUser')      
+const authManager = require('../middleware/authManager')
 const doctorCtrl = require('../controllers/doctor.controller')
 
 router.post('/', authUser, doctorCtrl.createDoctor)

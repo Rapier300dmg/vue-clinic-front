@@ -73,7 +73,6 @@ export default {
     }
     api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-    // Декодируем токен, чтобы получить patientId
     try {
       const payload = JSON.parse(atob(token.split('.')[1]))
       this.patientId = payload.userId || payload.id
@@ -84,7 +83,6 @@ export default {
       return
     }
 
-    // Пытаемся GET /doctor/:id, при 500 — фолбэк GET /doctor + поиск
     try {
       const res = await api.get(`/doctor/${this.doctorId}`)
       this.doctor = res.data
@@ -127,7 +125,6 @@ export default {
         this.success = true
         this.message = 'Запись успешно создана'
 
-        // Переходим на страницу деталей записи
         if (appointmentId) {
           this.$router.push({
             name: 'AppointmentList',

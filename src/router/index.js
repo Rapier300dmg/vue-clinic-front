@@ -38,8 +38,7 @@ const routes = [
     component: AppointmentButton,
     props: true
   },
-
-  // единственный маршрут для списка и деталей записей
+  
   {
     path: '/appointment-list/:appointmentId?',
     name: 'AppointmentList',

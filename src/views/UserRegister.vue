@@ -1,4 +1,3 @@
-<!-- src/views/UserRegisterPage.vue -->
 <template>
   <div class="form-container">
     <h2>Регистрация</h2>
@@ -18,7 +17,6 @@
       <p v-if="error" class="error">{{ error }}</p>
     </form>
 
-    <!-- Новая кнопка для регистрации врача -->
     <div class="doctor-register">
       <p>
         Если вы врач, зарегистрируйтесь&nbsp;

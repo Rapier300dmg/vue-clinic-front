@@ -1,9 +1,7 @@
-<!-- src/views/DoctorRegisterPage.vue -->
 <template>
   <div class="form-container">
     <h2>Регистрация врача</h2>
     <form @submit.prevent="handleDoctorRegister">
-      <!-- поля формы -->
       <input v-model="doctorName" type="text" placeholder="Имя и фамилия" required />
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Пароль" required />
@@ -56,7 +54,6 @@ export default {
             experience: this.experience
           }
         })
-        // Переходим на логин, указывая role=doctor
         await this.$router.push({
           name: 'Login',
           query: { role: 'doctor' }

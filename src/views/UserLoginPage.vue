@@ -1,4 +1,3 @@
-<!-- src/views/UserLoginPage.vue -->
 <template>
   <div class="form-container">
     <h2>{{ isDoctorLogin ? 'Вход для врача' : 'Вход' }}</h2>
@@ -15,7 +14,6 @@
 import axios from 'axios'
 import { useAuthStore } from '@/store/authStore'
 
-// Инстанс axios
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_URL || 'https://clinic-system-amwk.onrender.com'
 })
@@ -34,13 +32,11 @@ export default {
     return { authStore }
   },
   computed: {
-    // Если пришёл ?role=doctor, меняем заголовок
     isDoctorLogin() {
       return this.$route.query.role === 'doctor'
     }
   },
   methods: {
-    // Декодируем payload из JWT
     decodeToken(token) {
       try {
         const base64Url = token.split('.')[1]
@@ -59,32 +55,27 @@ export default {
     async handleLogin() {
       this.error = ''
       try {
-        // 1) Авторизация
         const { data } = await api.post('/auth/login', {
           email: this.email,
           password: this.password
         })
         const { token, role } = data
 
-        // 2) Сохраняем токен и роль
         this.authStore.setAuth(token, role)
         localStorage.setItem('token', token)
         localStorage.setItem('role', role)
         api.defaults.headers.common.Authorization = `Bearer ${token}`
 
-        // 3) Декодируем токен и достаём userId
         const payload = this.decodeToken(token)
         const realId = payload.userId
         if (!realId) throw new Error('Не удалось получить ID из токена')
 
-        // 4) Сохраняем ID в зависимости от роли
         if (role === 'doctor') {
           localStorage.setItem('doctorId', realId)
         } else {
           localStorage.setItem('userId', realId)
         }
 
-        // 5) Редиректим и перезагружаем
         if (role === 'doctor') {
           await this.$router.push({ name: 'DoctorProfile' })
         } else {
